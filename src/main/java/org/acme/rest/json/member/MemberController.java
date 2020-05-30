@@ -14,6 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.acme.rest.json.AppConfig;
+import org.acme.rest.json.doma.member.MemberDao;
+import org.acme.rest.json.doma.member.impl.MemberDaoImpl;
+import org.seasar.doma.jdbc.tx.TransactionManager;
+
 /**
  * 
  * @author y-noguchi
@@ -21,10 +26,13 @@ import javax.ws.rs.core.MediaType;
 @Path("/member")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class Member {
+public class MemberController {
 
 	@Inject
 	 MemberService service;
+	
+	private final MemberDao dao = new MemberDaoImpl();
+	TransactionManager tm = AppConfig.singleton().getTransactionManager();
 	
 	@GET
 	@Path("/create")
@@ -36,6 +44,14 @@ public class Member {
 	@Path("/list")
 	public List<MemberEntity> list() {
 		return service.getMemberList();
+	}
+	
+	@GET
+	@Path("/doma/list")
+	public List<org.acme.rest.json.doma.member.Member> domaList() {
+		return tm.required(() -> {
+			return dao.selectAll();
+		});
 	}
 	
 }

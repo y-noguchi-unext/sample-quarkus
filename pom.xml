@@ -59,6 +59,12 @@
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-jdbc-mysql</artifactId>
     </dependency>
+    <dependency>
+    <groupId>org.seasar.doma</groupId>
+    <artifactId>doma</artifactId>
+    <version>2.29.0</version>
+    <!-- https://mvnrepository.com/artifact/com.diffplug.eclipse.apt/com.diffplug.eclipse.apt.gradle.plugin -->
+</dependency>
   </dependencies>
   <build>
     <plugins>
